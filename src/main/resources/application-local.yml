@@ -4,3 +4,9 @@ spring:
     generate-ddl: true
     hibernate:
       ddl-auto: create
+
+
+  datasource:
+    url: jdbc:h2:tcp://localhost/~/community
+    username: sa
+    password:

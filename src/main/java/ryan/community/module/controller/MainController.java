@@ -13,13 +13,13 @@ import java.util.Map;
 public class MainController {
     @GetMapping
     public CommonResponse home() {
-        CommonResponse commonResponse = new CommonResponse();
+        CommonResponse response = new CommonResponse();
         Map<String, Object> rData = new HashMap<>();
         rData.put("Status", "Server OK");
 
-        commonResponse.setCode(CommonResponse.Code.SUCCESS);
-        commonResponse.setrData(rData);
+        response.setCode(CommonResponse.Code.SUCCESS);
+        response.setrData(rData);
 
-        return commonResponse;
+        return response;
     }
 }

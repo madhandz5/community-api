@@ -13,14 +13,14 @@ public class CommonResponse {
         SUCCESS("0000", "success"),
         //        ACCOUNT
         LOGIN_REQUIRED("1000", "Need to login"),
-        EMAIL_PASSWORD_MISMATCH("1002", "Email and password you entered didn't match"),
+        CHECK_EMAIL_TOKEN_MISMATCH("1001", "Email Check Token didn't match"),
         USED_EMAIL("1003", "Email already used"),
         USER_NOT_EXIST("1004", "User not exist"),
         INVALID_PASSWORD("1005", "Password is not valid"),
         INAPPROPRIATE_USER("1006", "Inappropriate user"),
         NOT_FOUND_PROVIDER("1007", "not found provider"),
-
-//        REQUEST
+        EMAIL_PASSWORD_MISMATCH("1100", "Email and password you entered didn't match."),
+        ALREADY_VERIFIED_EMAIL("1101", "This Email already verified."),
 
         //REQUEST,
         BAD_REQUEST("4000", "Bad request"),

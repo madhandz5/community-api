@@ -36,11 +36,9 @@ public class BoardService {
     }
 
     public List<Board> findArticleByAuthor(JsonNode params) {
-        List<Board> boardList = new ArrayList<>();
         String email = params.findValue("email").asText();
         Account account = accountRepository.findByEmail(email);
-        boardList = boardRepository.findAllByAccount(account);
 
-        return boardList;
+        return boardRepository.findAllByAccount(account);
     }
 }

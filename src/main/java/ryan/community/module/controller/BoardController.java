@@ -45,11 +45,8 @@ public class BoardController {
         CommonResponse response = new CommonResponse();
         Map<String, Object> rData = new HashMap<>();
         List<Board> boardList = boardService.findArticleByAuthor(params);
-        List<Long> boardIdList = new ArrayList<>();
-        for (Board board : boardList) {
-            boardIdList.add(board.getId());
-        }
-        rData.put("boardList", boardIdList);
+
+        rData.put("boardList", boardList);
         response.setCode(CommonResponse.Code.SUCCESS);
         response.setrData(rData);
         return response;

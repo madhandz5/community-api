@@ -1,5 +1,6 @@
 package ryan.community.module.domain;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.*;
 
 import javax.persistence.*;
@@ -40,7 +41,8 @@ public class Account {
 
     private LocalDateTime joinedAt;
 
-    @OneToMany(mappedBy = "account")
+    @JsonManagedReference
+    @OneToMany(mappedBy = "account", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<Board> boardList = new ArrayList<>();
 
 

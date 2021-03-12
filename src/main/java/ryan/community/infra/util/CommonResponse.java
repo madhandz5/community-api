@@ -14,7 +14,8 @@ public class CommonResponse {
         //        ACCOUNT
         LOGIN_REQUIRED("1000", "Need to login"),
         CHECK_EMAIL_TOKEN_MISMATCH("1001", "Email Check Token didn't match"),
-        USED_EMAIL("1003", "Email already used"),
+        USED_EMAIL("1002", "Email already used"),
+        USED_NICKNAME("1003", "Nickname already used"),
         USER_NOT_EXIST("1004", "User not exist"),
         INVALID_PASSWORD("1005", "Password is not valid"),
         INAPPROPRIATE_USER("1006", "Inappropriate user"),

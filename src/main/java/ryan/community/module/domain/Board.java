@@ -1,11 +1,14 @@
 package ryan.community.module.domain;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.*;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @NoArgsConstructor
@@ -27,10 +30,17 @@ public class Board {
     private String content;
     private LocalDateTime createdAt;
 
+    private boolean isActive;
+    private LocalDateTime removedAt;
+
     @JsonBackReference
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "account_id")
     private Account account;
     private boolean isModified;
     private LocalDateTime modifiedAt;
+
+    @JsonManagedReference
+    @OneToMany(mappedBy = "board", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<BoardReply> replyList = new ArrayList<>();
 }

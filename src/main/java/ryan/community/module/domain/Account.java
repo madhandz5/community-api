@@ -41,9 +41,17 @@ public class Account {
 
     private LocalDateTime joinedAt;
 
+    private boolean isExit;
+
+    private LocalDateTime exitAt;
+
     @JsonManagedReference
-    @OneToMany(mappedBy = "account", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "account", cascade = CascadeType.ALL)
     private List<Board> boardList = new ArrayList<>();
+
+    @JsonManagedReference
+    @OneToMany(mappedBy = "account", cascade = CascadeType.ALL)
+    private List<BoardReply> boardReplyList = new ArrayList<>();
 
 
     public void generateEmailToken() {

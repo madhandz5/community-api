@@ -2,6 +2,8 @@ package ryan.community.module.service;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import lombok.extern.slf4j.XSlf4j;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -36,6 +38,7 @@ public class AccountService {
                     .password(passwordEncoder.encode(password))
                     .nickname(nickname)
                     .username(username)
+                    .isExit(false)
                     .build();
             account.generateEmailToken();
             rData.put("account", accountRepository.save(account));
@@ -58,14 +61,20 @@ public class AccountService {
         return account;
     }
 
-    public Account login(JsonNode loginData) {
+    public Map<String, Object> login(JsonNode loginData) {
+        Map<String, Object> rData = new HashMap<>();
         String email = loginData.findValue("email").asText();
         String password = loginData.findValue("password").asText();
-        Account account = accountRepository.findByEmail(email);
-        if (passwordEncoder.matches(password, account.getPassword())) {
-            return account;
+        if (!accountRepository.existsByEmail(email)) {
+            rData.put("email", CommonResponse.Code.USER_NOT_EXIST);
         } else {
-            return null;
+            Account account = accountRepository.findByEmail(email);
+            if (passwordEncoder.matches(password, account.getPassword())) {
+                rData.put("account", account);
+            } else {
+                rData.put("password", CommonResponse.Code.INVALID_PASSWORD);
+            }
         }
+        return rData;
     }
 }

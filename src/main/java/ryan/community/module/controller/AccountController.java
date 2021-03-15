@@ -29,9 +29,9 @@ public class AccountController {
             rData.put("account", result.get("account"));
             response.setCode(CommonResponse.Code.SUCCESS);
             response.setrData(rData);
-        }else if(result.containsKey("email")){
+        } else if (result.containsKey("email")) {
             response.setCode(CommonResponse.Code.USED_EMAIL);
-        }else if(result.containsKey("nickname")){
+        } else if (result.containsKey("nickname")) {
             response.setCode(CommonResponse.Code.USED_NICKNAME);
         }
         return ResponseEntity.status(HttpStatus.OK).body(response);
@@ -61,13 +61,15 @@ public class AccountController {
     public ResponseEntity<?> login(@RequestBody JsonNode loginData) {
         CommonResponse response = new CommonResponse();
         Map<String, Object> rData = new HashMap<>();
-        Account account = accountService.login(loginData);
-        if (account != null) {
-            rData.put("account", account);
+        Map<String, Object> result = accountService.login(loginData);
+        if (result.containsKey("account")) {
+            rData.put("account", result.get("account"));
             response.setCode(CommonResponse.Code.SUCCESS);
             response.setrData(rData);
-        } else {
-            response.setCode(CommonResponse.Code.EMAIL_PASSWORD_MISMATCH);
+        } else if (result.containsKey("password")) {
+            response.setCode(CommonResponse.Code.INVALID_PASSWORD);
+        } else if (result.containsKey("email")) {
+            response.setCode(CommonResponse.Code.USER_NOT_EXIST);
         }
         return ResponseEntity.status(HttpStatus.OK).body(response);
     }

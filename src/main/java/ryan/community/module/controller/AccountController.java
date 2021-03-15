@@ -82,4 +82,37 @@ public class AccountController {
 
         return ResponseEntity.status(HttpStatus.OK).body(response);
     }
+
+    @PostMapping(value = "/remove/{email}")
+    public ResponseEntity<?> removeAccount(@PathVariable String email) {
+        CommonResponse response = new CommonResponse();
+        Map<String, Object> result = accountService.removeAccount(email);
+        Map<String, Object> rData = new HashMap<>();
+        if (result.containsKey("success")) {
+            rData.put("success", result.get("success"));
+            response.setrData(rData);
+            response.setCode(CommonResponse.Code.SUCCESS);
+
+        } else if (result.containsKey("error")) {
+            response.setCode(CommonResponse.Code.BAD_REQUEST);
+        }
+        return ResponseEntity.status(HttpStatus.OK).body(response);
+    }
+
+    @PostMapping(value = "/modify")
+    public ResponseEntity<?> modifyAccount(@RequestBody JsonNode accountData) {
+        CommonResponse response = new CommonResponse();
+        Map<String, Object> result = accountService.modifyAccount(accountData);
+        Map<String, Object> rData = new HashMap<>();
+        if (result.containsKey("success")) {
+            rData.put("success", result.get("success"));
+            response.setrData(rData);
+            response.setCode(CommonResponse.Code.SUCCESS);
+        } else if (result.containsKey("nickname")) {
+            response.setCode(CommonResponse.Code.USED_NICKNAME);
+        } else if (result.containsKey("error")) {
+            response.setCode(CommonResponse.Code.BAD_REQUEST);
+        }
+        return ResponseEntity.status(HttpStatus.OK).body(response);
+    }
 }

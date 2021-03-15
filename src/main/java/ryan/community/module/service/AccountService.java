@@ -11,8 +11,10 @@ import ryan.community.infra.util.CommonResponse;
 import ryan.community.module.domain.Account;
 import ryan.community.module.repository.AccountRepository;
 
+import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
 
 @Service
 @Transactional
@@ -74,6 +76,42 @@ public class AccountService {
             } else {
                 rData.put("password", CommonResponse.Code.INVALID_PASSWORD);
             }
+        }
+        return rData;
+    }
+
+    public Map<String, Object> removeAccount(String email) {
+        Map<String, Object> rData = new HashMap<>();
+        Account account = accountRepository.findByEmail(email);
+        if (account != null) {
+            account.setExit(true);
+            account.setExitAt(LocalDateTime.now());
+            rData.put("success", account);
+        } else {
+            rData.put("error", CommonResponse.Code.BAD_REQUEST);
+        }
+        return rData;
+    }
+
+    public Map<String, Object> modifyAccount(JsonNode accountData) {
+        Map<String, Object> rData = new HashMap<>();
+        String email = accountData.findValue("email").asText();
+        String username = accountData.findValue("username").asText();
+        String nickname = accountData.findValue("nickname").asText();
+        String password = accountData.findValue("password").asText();
+
+        Account account = accountRepository.findByEmail(email);
+        if (account != null) {
+            if (accountRepository.existsByNickname(nickname)) {
+                rData.put("nickname", CommonResponse.Code.USED_NICKNAME);
+            } else {
+                account.setUsername(username);
+                account.setNickname(nickname);
+                account.setPassword(passwordEncoder.encode(password));
+                rData.put("success", account);
+            }
+        } else {
+            rData.put("error", CommonResponse.Code.BAD_REQUEST);
         }
         return rData;
     }
